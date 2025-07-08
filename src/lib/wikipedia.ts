@@ -1,12 +1,15 @@
 import { WikipediaActionData } from "@/entities/wikipedia";
 import { load, type CheerioAPI } from "cheerio";
 
-export function WikipediaUrl(title: string) {
-  return `/w/api.php?action=parse&page=${title}&format=json`;
+export function WikipediaUrl(title: string, baseURL = "") {
+  return `${baseURL}/w/api.php?action=parse&page=${title}&format=json`;
 }
 
-export async function FetchWikipedia(title: string) {
-  const response = await fetch(WikipediaUrl(title));
+export async function FetchWikipedia(
+  title: string,
+  baseURL = "",
+): Promise<CheerioAPI> {
+  const response = await fetch(WikipediaUrl(title, baseURL));
 
   const obj = await response.json();
   const data = WikipediaActionData.parse(obj);
