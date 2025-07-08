@@ -68,9 +68,8 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
 function TableDemo() {
 	const rerender = React.useReducer(() => ({}), {})[1];
 
-	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-		[],
-	);
+	const [columnFilters, setColumnFilters] =
+		React.useState<ColumnFiltersState>([]);
 	const [globalFilter, setGlobalFilter] = React.useState("");
 
 	const columns = React.useMemo<ColumnDef<Person, any>[]>(
@@ -165,24 +164,34 @@ function TableDemo() {
 												<>
 													<div
 														{...{
-															className: header.column.getCanSort()
-																? "cursor-pointer select-none hover:text-blue-400 transition-colors"
-																: "",
-															onClick: header.column.getToggleSortingHandler(),
+															className:
+																header.column.getCanSort()
+																	? "cursor-pointer select-none hover:text-blue-400 transition-colors"
+																	: "",
+															onClick:
+																header.column.getToggleSortingHandler(),
 														}}
 													>
 														{flexRender(
-															header.column.columnDef.header,
+															header.column
+																.columnDef
+																.header,
 															header.getContext(),
 														)}
 														{{
 															asc: " 🔼",
 															desc: " 🔽",
-														}[header.column.getIsSorted() as string] ?? null}
+														}[
+															header.column.getIsSorted() as string
+														] ?? null}
 													</div>
 													{header.column.getCanFilter() ? (
 														<div className="mt-2">
-															<Filter column={header.column} />
+															<Filter
+																column={
+																	header.column
+																}
+															/>
 														</div>
 													) : null}
 												</>
@@ -202,7 +211,10 @@ function TableDemo() {
 								>
 									{row.getVisibleCells().map((cell) => {
 										return (
-											<td key={cell.id} className="px-4 py-3">
+											<td
+												key={cell.id}
+												className="px-4 py-3"
+											>
 												{flexRender(
 													cell.column.columnDef.cell,
 													cell.getContext(),
@@ -259,7 +271,9 @@ function TableDemo() {
 						type="number"
 						defaultValue={table.getState().pagination.pageIndex + 1}
 						onChange={(e) => {
-							const page = e.target.value ? Number(e.target.value) - 1 : 0;
+							const page = e.target.value
+								? Number(e.target.value) - 1
+								: 0;
 							table.setPageIndex(page);
 						}}
 						className="w-16 px-2 py-1 bg-gray-800 rounded-md border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
