@@ -23,14 +23,16 @@ interface Props {
 	options: { value: string; label: string }[];
 	placeholder?: string;
 	emptyMessage?: string;
-	onChange: (value?: string) => void;
+	onSelected: (value?: string) => void;
+	onChange?: (value: string) => void;
 	className?: string;
 }
 
 export function Combobox({
 	options,
 	placeholder = "Select an option...",
-	onChange = (value?: string) => console.log(value),
+	onSelected = (value?: string) => value,
+	onChange = (value: string) => value,
 	emptyMessage = "No options found.",
 	className = "",
 }: Props) {
@@ -60,7 +62,11 @@ export function Combobox({
 						return 0;
 					}}
 				>
-					<CommandInput placeholder={placeholder} className="h-9" />
+					<CommandInput
+						onValueChange={onChange}
+						placeholder={placeholder}
+						className="h-9"
+					/>
 					<CommandList>
 						<CommandEmpty>{emptyMessage}</CommandEmpty>
 						<CommandGroup>
@@ -71,7 +77,9 @@ export function Combobox({
 									keywords={[option.label.toLowerCase()]}
 									onSelect={(currentValue) => {
 										setValue(currentValue === value ? "" : currentValue);
-										onChange(currentValue === value ? undefined : currentValue);
+										onSelected(
+											currentValue === value ? undefined : currentValue,
+										);
 										setOpen(false);
 									}}
 								>
