@@ -13,8 +13,9 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/w/api.php": {
-        target: "https://en.wikipedia.org",
+      "/api": {
+        target: "http://localhost:8080",
+        rewrite: (path) => path.replace(/^\/api/, ""),
         changeOrigin: true,
         secure: true,
       },
