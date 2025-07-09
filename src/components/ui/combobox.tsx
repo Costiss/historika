@@ -51,7 +51,15 @@ export function Combobox({
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className="p-0 popover-content-width-same-as-its-trigger">
-				<Command>
+				<Command
+					filter={(value, search, keywords) => {
+						const extendValue = value + " " + keywords?.join(" ");
+						if (extendValue.toLowerCase().includes(search.toLowerCase())) {
+							return 1;
+						}
+						return 0;
+					}}
+				>
 					<CommandInput placeholder={placeholder} className="h-9" />
 					<CommandList>
 						<CommandEmpty>{emptyMessage}</CommandEmpty>
@@ -60,6 +68,7 @@ export function Combobox({
 								<CommandItem
 									key={option.value}
 									value={option.value}
+									keywords={[option.label.toLowerCase()]}
 									onSelect={(currentValue) => {
 										setValue(currentValue === value ? "" : currentValue);
 										onChange(currentValue === value ? undefined : currentValue);
