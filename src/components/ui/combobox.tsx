@@ -18,6 +18,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
+import { LoadingSpinner } from "./spinner";
 
 interface Props {
 	options: { value: string; label: string }[];
@@ -25,6 +26,7 @@ interface Props {
 	emptyMessage?: string;
 	onSelected: (value?: string) => void;
 	onChange?: (value: string) => void;
+	isLoading?: boolean;
 	className?: string;
 }
 
@@ -33,6 +35,7 @@ export function Combobox({
 	placeholder = "Select an option...",
 	onSelected = (value?: string) => value,
 	onChange = (value: string) => value,
+	isLoading = false,
 	emptyMessage = "No options found.",
 	className = "",
 }: Props) {
@@ -68,31 +71,39 @@ export function Combobox({
 						className="h-9"
 					/>
 					<CommandList>
-						<CommandEmpty>{emptyMessage}</CommandEmpty>
-						<CommandGroup>
-							{options.map((option) => (
-								<CommandItem
-									key={option.value}
-									value={option.value}
-									keywords={[option.label.toLowerCase()]}
-									onSelect={(currentValue) => {
-										setValue(currentValue === value ? "" : currentValue);
-										onSelected(
-											currentValue === value ? undefined : currentValue,
-										);
-										setOpen(false);
-									}}
-								>
-									{option.label}
-									<Check
-										className={cn(
-											"ml-auto",
-											value === option.value ? "opacity-100" : "opacity-0",
-										)}
-									/>
-								</CommandItem>
-							))}
-						</CommandGroup>
+						{isLoading ? (
+							<div className="flex items-center justify-center p-4">
+								<LoadingSpinner />
+							</div>
+						) : (
+							<>
+								<CommandEmpty>{emptyMessage}</CommandEmpty>
+								<CommandGroup>
+									{options.map((option) => (
+										<CommandItem
+											key={option.value}
+											value={option.value}
+											keywords={[option.label.toLowerCase()]}
+											onSelect={(currentValue) => {
+												setValue(currentValue === value ? "" : currentValue);
+												onSelected(
+													currentValue === value ? undefined : currentValue,
+												);
+												setOpen(false);
+											}}
+										>
+											{option.label}
+											<Check
+												className={cn(
+													"ml-auto",
+													value === option.value ? "opacity-100" : "opacity-0",
+												)}
+											/>
+										</CommandItem>
+									))}
+								</CommandGroup>
+							</>
+						)}
 					</CommandList>
 				</Command>
 			</PopoverContent>
