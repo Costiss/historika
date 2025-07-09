@@ -28,6 +28,8 @@ interface Props {
 	onChange?: (value: string) => void;
 	isLoading?: boolean;
 	className?: string;
+	value?: string;
+	setValue?: (value?: string) => void;
 }
 
 export function Combobox({
@@ -38,9 +40,17 @@ export function Combobox({
 	isLoading = false,
 	emptyMessage = "No options found.",
 	className = "",
+	value = "",
+	setValue = (value?: string) => value,
 }: Props) {
 	const [open, setOpen] = React.useState(false);
-	const [value, setValue] = React.useState("");
+	if (!value && !setValue) {
+		const [localValue, setLocalValue] = React.useState<string | undefined>(
+			undefined,
+		);
+		setValue = setLocalValue;
+		value = localValue as string;
+	}
 
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
@@ -49,7 +59,11 @@ export function Combobox({
 					variant="outline"
 					role="combobox"
 					aria-expanded={open}
-					className={cn("justify-between w-full", className)}
+					className={cn(
+						"justify-between w-full text-sm",
+						value ? "text-left" : "text-muted-foreground",
+						className,
+					)}
 				>
 					{value ? options.find((o) => o.value === value)?.label : placeholder}
 					<ChevronsUpDown className="opacity-50" />

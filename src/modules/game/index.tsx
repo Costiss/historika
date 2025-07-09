@@ -64,7 +64,6 @@ export default function Component() {
 	const [currentHintIndex, setCurrentHintIndex] = useState(0);
 
 	const maxAttempts = 6;
-	const attemptsLeft = maxAttempts - attempts.length;
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -112,7 +111,7 @@ export default function Component() {
 		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
 			<div className="max-w-2xl mx-auto">
 				{/* Header */}
-				<div className="text-center mb-8">
+				<div className="text-center mb-4">
 					<h1 className="text-4xl font-bold text-gray-900 mb-2">Historika</h1>
 					<p className="text-gray-600">
 						Guess the country from historical events
@@ -122,10 +121,6 @@ export default function Component() {
 							<Calendar className="w-4 h-4" />
 							Daily Challenge
 						</Badge>
-						<Badge variant="outline" className="flex items-center gap-1">
-							<MapPin className="w-4 h-4" />
-							{attemptsLeft} attempts left
-						</Badge>
 					</div>
 				</div>
 
@@ -134,9 +129,11 @@ export default function Component() {
 					guess={guess}
 					setGuess={setGuess}
 					handleSubmit={handleSubmit}
+					maxAttempts={maxAttempts}
+					attempts={attempts}
 				/>
 
-				<Attempts attempts={attempts} gameOver={gameOver} />
+				{/* <Attempts attempts={attempts} gameOver={gameOver} /> */}
 				<GameOver
 					gameOver={gameOver}
 					gameWon={gameWon}
@@ -174,33 +171,33 @@ export default function Component() {
 				{/* )} */}
 
 				{/* Game Stats */}
-				<Card>
-					<CardHeader>
-						<CardTitle>Game Statistics</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<div className="grid grid-cols-3 gap-4 text-center">
-							<div>
-								<div className="text-2xl font-bold text-indigo-600">
-									{attempts.length}
-								</div>
-								<div className="text-sm text-gray-600">Attempts Used</div>
-							</div>
-							<div>
-								<div className="text-2xl font-bold text-indigo-600">
-									{attemptsLeft}
-								</div>
-								<div className="text-sm text-gray-600">Attempts Left</div>
-							</div>
-							<div>
-								<div className="text-2xl font-bold text-indigo-600">
-									{showHints ? currentHintIndex + 1 : 0}
-								</div>
-								<div className="text-sm text-gray-600">Hints Used</div>
-							</div>
-						</div>
-					</CardContent>
-				</Card>
+				{/* <Card> */}
+				{/* 	<CardHeader> */}
+				{/* 		<CardTitle>Game Statistics</CardTitle> */}
+				{/* 	</CardHeader> */}
+				{/* 	<CardContent> */}
+				{/* 		<div className="grid grid-cols-3 gap-4 text-center"> */}
+				{/* 			<div> */}
+				{/* 				<div className="text-2xl font-bold text-indigo-600"> */}
+				{/* 					{attempts.length} */}
+				{/* 				</div> */}
+				{/* 				<div className="text-sm text-gray-600">Attempts Used</div> */}
+				{/* 			</div> */}
+				{/* 			<div> */}
+				{/* 				<div className="text-2xl font-bold text-indigo-600"> */}
+				{/* 					{attemptsLeft} */}
+				{/* 				</div> */}
+				{/* 				<div className="text-sm text-gray-600">Attempts Left</div> */}
+				{/* 			</div> */}
+				{/* 			<div> */}
+				{/* 				<div className="text-2xl font-bold text-indigo-600"> */}
+				{/* 					{showHints ? currentHintIndex + 1 : 0} */}
+				{/* 				</div> */}
+				{/* 				<div className="text-sm text-gray-600">Hints Used</div> */}
+				{/* 			</div> */}
+				{/* 		</div> */}
+				{/* 	</CardContent> */}
+				{/* </Card> */}
 			</div>
 		</div>
 	);
